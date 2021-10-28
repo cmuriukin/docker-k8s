@@ -28,8 +28,7 @@ pipeline {
 
         stage('Deploy our image') {
       steps {
-        script {
-          /* groovylint-disable-next-line NestedBlockDepth
+         /* groovylint-disable-next-line NestedBlockDepth
           docker.withRegistry( '', registryCredential ) {
             dockerImage.push() */
           /* groovylint-disable-next-line NestedBlockDepth
@@ -38,6 +37,7 @@ pipeline {
             sh 'docker login -u cmuriukin -p ${dockerhubpwd}'
             }
             sh 'docker push devops-k8s:latest' */
+            script {
                     // CUSTOM REGISTRY
                     docker.withRegistry('https://hub.docker.com/') {
                         /* Build the container image */
@@ -51,7 +51,7 @@ pipeline {
                     /* Remove docker image
                     sh 'docker rmi -f my-image:${env.BUILD_ID}'   */
             }
-          }
+          
         }
       }
         }
