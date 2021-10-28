@@ -14,7 +14,7 @@ node {
     }
 
     withCredentials([string(credentialsId: 'DOCKER_HUB_PASSWORD', variable: 'PASSWORD')]) {
-        sh 'docker login --username cmuriukin --password-stdin < $PASSWORD'
+        sh 'docker login --username cmuriukin --password-stdin < ~/my_password'
     }
 
     stage("Push Image to Docker Hub"){
