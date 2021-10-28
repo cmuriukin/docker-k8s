@@ -1,47 +1,32 @@
-
 pipeline {
-    environment {
-        registry = 'cmuriukin/docker-k8s'
-
-        registryCredential = 'GIT_HUB_CREDENTIALS'
-
-        dockerImage = ''
-    }
-
     agent any
-
-    stages {
-        stage('Cloning our Git') {
+  stages {
+    stage('Docker Build and Tag') {
       steps {
-        git credentialsId: 'GIT_HUB_CREDENTIALS', url: 'https://github.com/cmuriukin/docker-k8s.git', branch: 'main'
+        sh 'docker build -t nginxtest:latest .'
+        sh 'docker tag nginxtest nikhilnidhi/nginxtest:latest'
+        sh 'docker tag nginxtest nikhilnidhi/nginxtest:$BUILD_NUMBER'
       }
-        }
-
-        stage('Building our image') {
-      steps {
-        script {
-          /*dockerImage = docker.build registry + ":$BUILD_NUMBER" */
-          sh 'docker build -t devops-k8s:latest . '
-        }
-      }
-        }
-
-        stage('Deploy our image') {
-      steps {
-             script {
-                    withDockerRegistry([ credentialsId: "DOCKER_HUB_PASSWORD", url: "https://hub.docker.com" ]) {
-                    sh  'docker push devops-k8s:latest'
-                    sh  'docker push devops-k8s:latest:$BUILD_NUMBER' 
- /*                   docker.withRegistry('https://hub.docker.com/') {
-
-                        def dockerImage = docker.build("docker-k8s:${env.BUILD_ID}") 
-
-                        dockerImage.push() */
-                    }
-            }
-          
-        }
-      }
-        }
     }
 
+    stage('Publish image to Docker Hub') {
+      steps {
+        withDockerRegistry([ credentialsId: 'DOCKER_HUB_PASSWORD', url: '' ]) {
+          sh  'docker push nikhilnidhi/nginxtest:latest'
+          sh  'docker push nikhilnidhi/nginxtest:$BUILD_NUMBER'
+        }
+      }
+    }
+
+      stage('Run Docker container on Jenkins Agent') {
+      steps {
+        sh 'docker run -d -p 4030:80 nikhilnidhi/nginxtest'
+      }
+      }
+    stage('Run Docker container on remote hosts') {
+      steps {
+        sh 'docker -H ssh://jenkins@172.31.28.25 run -d -p 4001:80 nikhilnidhi/nginxtest'
+      }
+    }
+  }
+}
