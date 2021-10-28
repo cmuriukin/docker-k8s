@@ -46,7 +46,8 @@ pipeline {
                         def dockerImage = docker.build("docker-k8s:${env.BUILD_ID}")
 
                         /* Push the container to the custom Registry */
-                        dockerImage.push()
+                        /* groovylint-disable-next-line GStringExpressionWithinString */
+                        dockerImage.push('cmuriukin/docker-k8s:${env.BUILD_ID}"')
                     }
                     /* Remove docker image
                     sh 'docker rmi -f my-image:${env.BUILD_ID}'   */
