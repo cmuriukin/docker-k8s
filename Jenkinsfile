@@ -36,7 +36,7 @@ pipeline {
           withCredentials([string(credentialsId: 'DOCKER_HUB_PASSWORD', variable: 'dockerhubpwd')]) {
              groovylint-disable-next-line GStringExpressionWithinString 
             sh 'docker login -u cmuriukin -p ${dockerhubpwd}' */
-	    cat /my_password.txt | docker login --username foo --password-stdin
+	    sh 'cat /my_password.txt | docker login --username foo --password-stdin'
           }
             sh 'docker push devops-k8s:latest'
           }
