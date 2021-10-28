@@ -29,7 +29,7 @@ pipeline {
         stage('Deploy our image') {
       steps {
              script {
-                    withDockerRegistry([ credentialsId: "	DOCKER_HUB_PASSWORD", url: "https://hub.docker.com" ]) {
+                    withDockerRegistry([ credentialsId: "cmuriukin", url: "https://hub.docker.com" ]) {
                     sh  'docker push devops-k8s:latest'
                     sh  'docker push devops-k8s:latest:$BUILD_NUMBER' 
  /*                   docker.withRegistry('https://hub.docker.com/') {
