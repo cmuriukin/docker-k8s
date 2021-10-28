@@ -56,29 +56,3 @@ pipeline {
           }
         }
       }
-
-          stage('SSH Into k8s Server') {
-            steps {
-        def remote = [:]
-        remote.name = 'minikube'
-        remote.host = '172.31.81.192'
-        remote.user = 'ubuntu'
-        remote.password = '#andela123'
-        remote.allowAnyHosts = true
-
-        stage('Put pod-from-inside.yaml onto k8smaster') {
-            sshPut remote: remote, from: 'pod-from-inside.yaml', into: '.'
-        }
-
-        stage('Deploy pod-from-inside.yaml') {
-          sshCommand remote: remote, command: "kubectl apply -f pod-from-inside.yaml"
-        }
-            }
-
-        stage('Cleaning up') {
-      steps {
-        sh "docker rmi $registry:$BUILD_NUMBER"
-      }
-        }
-          }
-        }
