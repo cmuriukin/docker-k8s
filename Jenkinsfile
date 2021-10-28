@@ -42,6 +42,7 @@ pipeline {
                     // CUSTOM REGISTRY
                     docker.withRegistry('https://hub.docker.com/') {
                         /* Build the container image */
+                        /* groovylint-disable-next-line NoDef, VariableTypeRequired */
                         def dockerImage = docker.build("docker-k8s:${env.BUILD_ID}")
 
                         /* Push the container to the custom Registry */
