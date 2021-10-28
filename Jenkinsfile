@@ -8,7 +8,7 @@ node {
      
     stage("Docker build"){
         sh 'docker version'
-        sh 'docker build .'
+        sh 'docker build -t docker-kubectl-image:v1 .'
         sh 'docker image list'
         sh 'docker tag docker-kubectl-image:v1'
     }
