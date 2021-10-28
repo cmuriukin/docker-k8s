@@ -41,18 +41,18 @@ pipeline {
             script {
                     // CUSTOM REGISTRY
                     docker.withRegistry('https://hub.docker.com/') {
-
                         /* Build the container image */
                         def dockerImage = docker.build("docker-k8s:${env.BUILD_ID}")
 
                         /* Push the container to the custom Registry */
                         dockerImage.push()
-
                     }
                     /* Remove docker image
                     sh 'docker rmi -f my-image:${env.BUILD_ID}'   */
             }
-
           }
         }
       }
+        }
+    }
+
