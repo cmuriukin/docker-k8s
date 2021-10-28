@@ -18,7 +18,9 @@ node {
     }
 
     stage("Push Image to Docker Hub"){
-        sh 'docker push  docker-kubectl-image:v1'
+       	docker.withRegistry( '', DOCKER_HUB_PASSWORD ) {
+	dockerImage.push("$BUILD_NUMBER")
+	dockerImage.push('v1')
     }
 
     stage("SSH Into k8s Server") {
