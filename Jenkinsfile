@@ -10,7 +10,7 @@ node {
         sh 'docker version'
         sh 'docker build -t docker-kubectl-image:v1 .'
         sh 'docker image list'
-        sh 'docker tag docker-kubectl-image:v1'
+        sh 'docker tag docker-kubectl-image:v1 docker-kubectl-image:v1'
     }
 
     withCredentials([string(credentialsId: 'DOCKER_HUB_PASSWORD', variable: 'PASSWORD')]) {
