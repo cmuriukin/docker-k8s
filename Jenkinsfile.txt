@@ -18,7 +18,7 @@ node {
     }
 
     stage("Push Image to Docker Hub"){
-       	sh 'docker push  docker-kubectl-image:v1'
+           sh 'docker push  docker-kubectl-image:v1'
     }
 
     stage("SSH Into k8s Server") {
