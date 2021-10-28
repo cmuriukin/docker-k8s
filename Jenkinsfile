@@ -34,9 +34,9 @@ pipeline {
                     sh  'docker push devops-k8s:latest:$BUILD_NUMBER' 
  /*                   docker.withRegistry('https://hub.docker.com/') {
 
-                        def dockerImage = docker.build("docker-k8s:${env.BUILD_ID}") */
+                        def dockerImage = docker.build("docker-k8s:${env.BUILD_ID}") 
 
-                        dockerImage.push()
+                        dockerImage.push() */
                     }
             }
           
