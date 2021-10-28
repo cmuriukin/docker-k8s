@@ -30,13 +30,13 @@ pipeline {
       steps {
         script {
           /* groovylint-disable-next-line NestedBlockDepth 
-          /docker.withRegistry( '', registryCredential ) {
+          docker.withRegistry( '', registryCredential ) {
             dockerImage.push() */
           /* groovylint-disable-next-line NestedBlockDepth
           withCredentials([string(credentialsId: 'DOCKER_HUB_PASSWORD', variable: 'dockerhubpwd')]) {
              groovylint-disable-next-line GStringExpressionWithinString 
             sh 'docker login -u cmuriukin -p ${dockerhubpwd}' */
-	    sh 'cat /my_password.txt | docker login --username foo --password-stdin'
+	    sh 'cat /my_password.txt | docker login --username cmuriukin --password-stdin'
           }
             sh 'docker push devops-k8s:latest'
           }
