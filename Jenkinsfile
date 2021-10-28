@@ -38,7 +38,6 @@ pipeline {
             sh 'docker login -u cmuriukin -p ${dockerhubpwd}'
             }
             sh 'docker push devops-k8s:latest' */
-            script {
                     // CUSTOM REGISTRY
                     docker.withRegistry('https://hub.docker.com/') {
                         /* Build the container image */
