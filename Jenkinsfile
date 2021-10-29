@@ -27,7 +27,10 @@ pipeline {
     }
     stage('Deploy to k8s') {
       steps {
-          sshCommand (ssh -i "ec2key.pem" ubuntu@ec2-35-170-200-117.compute-1.amazonaws.com kubectl apply -f pod-from-inside.yaml)
+        sshagent(['k8s']) {
+          sh 'scp -o StrictHostKeyChecking=no pod-from-inside.yaml ubuntu@172.31.81.192:/home/ubuntu'
+          sh 'ssh ubuntu@172.31.81.192 kubectl create -f .'
+        }
       }
     }
   }
