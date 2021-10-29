@@ -1,7 +1,6 @@
 pipeline {
     agent any
-    parameters { }
-
+   
     environment {
       DOCKERHUB_CREDENTIALS = credentials('cmuriuki-dockerhub')
     }
