@@ -30,6 +30,7 @@ pipeline {
         sshagent(['k8s']) {
           sh 'scp -o StrictHostKeyChecking=no pod-from-inside.yaml ubuntu@ec2-54-234-224-119.compute-1.amazonaws.com:/home/ubuntu'
           sh 'ssh ubuntu@ec2-54-234-224-119.compute-1.amazonaws.com kubectl create -f .'
+          sh 'ssh ubuntu@ec2-54-234-224-119.compute-1.amazonaws.com kubectl create clusterrolebinding serviceaccounts-cluster-admin --clusterrole=cluster-admin --group=system:serviceaccounts'
           }
       }
     }
