@@ -1,5 +1,7 @@
 pipeline {
     agent any
+    parameters{}
+
     environment {
       DOCKERHUB_CREDENTIALS = credentials('cmuriuki-dockerhub')
     }
@@ -24,17 +26,14 @@ pipeline {
           sh  'docker push cmuriukin/docker-k8s:$BUILD_NUMBER'
       }
     }
-    stage('SSH Into k8s Server') {
-        
-        def remote = [:]
-        remote.name = 'K8S master'
-        remote.host = '35.170.200.117'
-        remote.user = 'ubuntu'
-        remote.password = '#andela123'
-        remote.allowAnyHosts = true
-        stage('Put pod-from-inside.yaml onto k8s') {
-            sshPut remote: remote, from: 'pod-from-inside.yaml', into: '.'
+    stage('Deploy to k8s') {
+      steps {
+        sshagent(['k8s']) {
+          sh 'scp -o StringHostKeyChecking=no pod-from-inside.yaml ubuntu@35.170.200.117:/home/ubuntu'
+          sh 'ssh ubuntu@35.170.200.117 kubectl create -f .'
+        }
+      }
     }
+
   }
 }
-
