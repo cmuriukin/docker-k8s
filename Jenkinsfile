@@ -32,8 +32,8 @@ pipeline {
         remote.user = 'ubuntu'
         remote.password = '#andela123'
         remote.allowAnyHosts = true
-        stage('Put k8s-spring-boot-deployment.yml onto k8smaster') {
-            sshPut remote: remote, from: 'k8s-spring-boot-deployment.yml', into: '.'
+        stage('Put pod-from-inside.yaml onto k8s') {
+            sshPut remote: remote, from: 'pod-from-inside.yaml', into: '.'
     }
   }
 }
