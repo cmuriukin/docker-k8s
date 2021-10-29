@@ -28,8 +28,8 @@ pipeline {
     stage('Deploy to k8s') {
       steps {
         sshagent(['k8s']) {
-          sh 'scp -o StrictHostKeyChecking=no pod-from-inside.yaml ubuntu@172.31.81.192:/home/ubuntu'
-          sh 'ssh ubuntu@172.31.81.192 kubectl create -f .'
+          sh 'scp -o StrictHostKeyChecking=no pod-from-inside.yaml ubuntu@ec2-35-170-200-117.compute-1.amazonaws.com:/home/ubuntu'
+          sh 'ssh ubuntu@ec2-35-170-200-117.compute-1.amazonaws.com kubectl create -f .'
         }
       }
     }
