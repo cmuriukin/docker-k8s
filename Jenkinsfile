@@ -28,7 +28,7 @@ pipeline {
     stage('Deploy to k8s') {
       steps {
         sshagent(['k8s']) {
-          sh 'ssh ubuntu@35.170.200.117 kubectl create -f .'
+          sh 'ssh StrictHostKeyChecking=no ubuntu@35.170.200.117 kubectl apply -f pod-from-inside.yaml'
         }
       }
     }
