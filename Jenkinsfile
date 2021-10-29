@@ -25,26 +25,24 @@ pipeline {
       }
     }
     stage('SSH Into k8s Server') {
-        steps {
           def remote = [:]
           remote.name = 'K8S master'
           remote.host = '35.170.200.117'
           remote.user = 'ubuntu'
           remote.password = '#andela123'
           remote.allowAnyHosts = true
-        }
     }
     stage('Put pod-from-inside.yaml onto k8smaster') {
-            steps {
-              sshPut remote: remote, from: 'pod-from-inside.yaml', into: '.'
-            }
-        }
+      steps {
+        sshPut remote: remote, from: 'pod-from-inside.yaml', into: '.'
+      }
+    }
 
     stage('Deploy to K8s') {
           steps {
-          sshCommand remote: remote, command: 'kubectl apply -f pod-from-inside.yaml'
+            sshCommand remote: remote, command: 'kubectl apply -f pod-from-inside.yaml'
           }
-        }
     }
   }
+}
 
