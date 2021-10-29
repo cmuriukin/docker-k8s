@@ -4,11 +4,16 @@ pipeline {
       DOCKERHUB_CREDENTIALS = credentials('cmuriuki-dockerhub')
     }
   stages {
+    stage('Cloning our Git') {
+        steps {
+          git credentialsId: 'GIT_HUB_CREDENTIALS', url: 'https://github.com/cmuriukin/docker-k8s.git', branch: 'main'
+        }
+    }
     stage('Docker Build and Tag') {
       steps {
-        sh 'docker build -t docker-k8s:latest .'
-        sh 'docker tag docker-k8s cmuriukin/docker-k8s:latest'
-        sh 'docker tag docker-k8s cmuriukin/docker-k8s:$BUILD_NUMBER'
+          sh 'docker build -t docker-k8s:latest .'
+          sh 'docker tag docker-k8s cmuriukin/docker-k8s:latest'
+          sh 'docker tag docker-k8s cmuriukin/docker-k8s:$BUILD_NUMBER'
       }
     }
 
@@ -25,7 +30,7 @@ pipeline {
       steps {
         sh 'docker run -d -p 4030:80 nikhilnidhi/nginxtest'
       }
-    }
+     }
    stage('Run Docker container on remote hosts') {
       steps {
         sh 'docker -H ssh://jenkins@172.31.28.25 run -d -p 4001:80 nikhilnidhi/nginxtest' */
