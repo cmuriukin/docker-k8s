@@ -24,14 +24,25 @@ pipeline {
           sh  'docker push cmuriukin/docker-k8s:$BUILD_NUMBER'
       }
     }
-  }
+    stage('SSH Into k8s Server') {
+        steps {
+          def remote = [:]
+          remote.name = 'K8S master'
+          remote.host = '35.170.200.117'
+          remote.user = 'ubuntu'
+          remote.password = '#andela123'
+          remote.allowAnyHosts = true
+        }
+        stage('Put pod-from-inside.yaml onto k8smaster') {
+            steps {
+              sshPut remote: remote, from: 'pod-from-inside.yaml', into: '.'
+            }
+        }
 
-     /*stage('Run Docker container on Jenkins Agent') {
-      steps {
-        sh 'docker run -d -p 4030:80 nikhilnidhi/nginxtest'
-      }
-     }
-   stage('Run Docker container on remote hosts') {
-      steps {
-        sh 'docker -H ssh://jenkins@172.31.28.25 run -d -p 4001:80 nikhilnidhi/nginxtest' */
-      }
+        stage('Deploy to K8s') {
+          sshCommand remote: remote, command: 'kubectl apply -f pod-from-inside.yaml'
+
+        }
+    }
+  }
+}
