@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+      DOCKERHUB_CREDENTIALS = credentials('cmuriuki-dockerhub')
+    }
   stages {
     stage('Docker Build and Tag') {
       steps {
@@ -11,7 +14,7 @@ pipeline {
 
     stage('Publish image to Docker Hub') {
       steps {
-        withDockerRegistry([ credentialsId: 'cmuriukin', url: 'cmuriukin/docker-k8s' ]) {
+          sh  'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_usr --password-stdin '
           sh  'docker push nikhilnidhi/nginxtest:latest'
           sh  'docker push nikhilnidhi/nginxtest:$BUILD_NUMBER'
         }
