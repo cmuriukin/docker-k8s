@@ -6,17 +6,17 @@ pipeline {
   stages {
     stage('Docker Build and Tag') {
       steps {
-        sh 'docker build -t nginxtest:latest .'
-        sh 'docker tag nginxtest nikhilnidhi/nginxtest:latest'
-        sh 'docker tag nginxtest nikhilnidhi/nginxtest:$BUILD_NUMBER'
+        sh 'docker build -t docker-k8s:latest .'
+        sh 'docker tag docker-k8s cmuriukin/docker-k8s:latest'
+        sh 'docker tag docker-k8s cmuriukin/docker-k8s:$BUILD_NUMBER'
       }
     }
 
     stage('Publish image to Docker Hub') {
       steps {
           sh  'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin '
-          sh  'docker push nikhilnidhi/nginxtest:latest'
-          sh  'docker push nikhilnidhi/nginxtest:$BUILD_NUMBER'
+          sh  'docker push cmuriukin/docker-k8s:latest'
+          sh  'docker push cmuriukin/docker-k8s:$BUILD_NUMBER'
       }
     }
   }
