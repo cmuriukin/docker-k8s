@@ -27,9 +27,7 @@ pipeline {
     }
     stage('Deploy to k8s') {
       steps {
-        sshagent(['k8s']) {
           sh 'ssh -i "ec2key.pem" ubuntu@35.170.200.117 kubectl apply -f pod-from-inside.yaml'
-        }
       }
     }
   }
