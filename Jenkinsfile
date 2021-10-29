@@ -24,7 +24,14 @@ pipeline {
           sh  'docker push cmuriukin/docker-k8s:$BUILD_NUMBER'
       }
     }
-
+    stage('SSH Into k8s Server') {
+        def remote = [:]
+        remote.name = 'K8S master'
+        remote.host = '35.170.200.117'
+        remote.user = 'ubuntu'
+        remote.password = '#andela123'
+        remote.allowAnyHosts = true
+    }
   }
 }
 
