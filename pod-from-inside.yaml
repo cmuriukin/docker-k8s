@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: qa-scripts
-          image: artifactory.cloud.berkshiregrey.com/docker-local-cloud-devops/bg-sandbox/mtf-micfiles/qa-scripts/clitools:v0.0.9
+          image: cmuriukin/docker-k8s:latest
           ports:
             - containerPort: 80
 ---
@@ -31,31 +31,3 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 80
-
----
-apiVersion: rbac.authorization.k8s.io/v1beta1
-# This cluster role grants permissions to access resources in the cluster.
-kind: ClusterRole
-metadata:
-  name: qa_scripts
-rules:
-  - apiGroups: [""]
-    resources: ["pods", "services", "nodes", "serviceaccounts", "namespaces"]
-    verbs: ["get", "watch", "list"]
-
----
-apiVersion: rbac.authorization.k8s.io/v1beta1
-# This cluster role binding grants permissions defined in a cluster role to a service account.
-kind: ClusterRoleBinding
-metadata:
-  name: qa_scripts
-#  namespace: default
-subjects:
-  - kind: ServiceAccount
-    name: default
-    namespace: qa_scripts
-#    apiGroup: rbac.authorization.k8s.io
-roleRef:
-  kind: ClusterRole
-  name: qa_scripts
-  apiGroup: rbac.authorization.k8s.io
