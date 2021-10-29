@@ -27,7 +27,7 @@ pipeline {
     }
     stage('Deploy to k8s') {
       steps {
-          sh 'ssh -i "ec2key.pem" ubuntu@ec2-35-170-200-117.compute-1.amazonaws.com kubectl apply -f pod-from-inside.yaml'
+          sh ('sshCommand (ssh -i "ec2key.pem" ubuntu@ec2-35-170-200-117.compute-1.amazonaws.com kubectl apply -f pod-from-inside.yaml)')
       }
     }
   }
