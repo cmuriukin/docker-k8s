@@ -30,5 +30,3 @@ pipeline {
       steps {
         sh 'docker -H ssh://jenkins@172.31.28.25 run -d -p 4001:80 nikhilnidhi/nginxtest' */
       }
-    }
-  }
