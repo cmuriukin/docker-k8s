@@ -33,16 +33,18 @@ pipeline {
           remote.password = '#andela123'
           remote.allowAnyHosts = true
         }
-        stage('Put pod-from-inside.yaml onto k8smaster') {
+    }
+    stage('Put pod-from-inside.yaml onto k8smaster') {
             steps {
               sshPut remote: remote, from: 'pod-from-inside.yaml', into: '.'
             }
         }
 
-        stage('Deploy to K8s') {
+    stage('Deploy to K8s') {
+          steps {
           sshCommand remote: remote, command: 'kubectl apply -f pod-from-inside.yaml'
-
+          }
         }
     }
   }
-}
+
